@@ -1,0 +1,29 @@
+{% extends "admin_layout.html" %}
+{% block content %}
+    <div class="container">
+        {% for room in rooms.items %}
+            <div class="row">
+                <div class="card w-75" style="margin-bottom: 30px; background-color: #E3E3E3">
+                  <div class="card-body">
+                    <h4 class="card-title">{{ room.room_num }}</h4>
+                    <p class="card-text">This is a room with {{ room.beds[-1] }} bed(s).</p>
+                    <a style="float: right" href="{{ url_for('default_roomview', id = room.room_num) }}" class="btn btn-primary">See room details</a>
+                  </div>
+                </div>
+            </div>
+
+        {% endfor %}
+        {% for page_num in rooms.iter_pages(left_edge = 1, right_edge = 1, left_current = 1, right_current = 2) %}
+            {% if page_num %}
+                {% if rooms.page == page_num %}
+                    <a class="btn btn-dark mb-4" href="/admin/viewrooms?page={{page_num}}" >{{ page_num }}</a>
+                {% else %}
+                    <a class="btn btn-outline-dark mb-4" href="/admin/viewrooms?page={{page_num}}">{{ page_num }}</a>
+                {% endif %}
+            {% else %}
+                ...
+            {% endif %}
+        {% endfor %}
+    </div>
+
+{% endblock%}
